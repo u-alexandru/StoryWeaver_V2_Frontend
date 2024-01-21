@@ -1,0 +1,82 @@
+<header class="flex items-center h-16 px-4 border-b shrink-0 md:px-6">
+    <nav class="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+      <a class="flex items-center gap-2 text-lg font-semibold md:text-base" href="#">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-6 h-6"
+        >
+          <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path>
+          <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
+          <path d="M12 3v6"></path>
+        </svg>
+        <span class="sr-only">Acme Inc</span>
+      </a>
+      <a class="font-bold" href="#">
+        Dashboard
+      </a>
+      <a class="text-gray-500 dark:text-gray-400" href="#">
+        Stories
+      </a>
+      <a class="text-gray-500 dark:text-gray-400" href="#">
+        Illustrators
+      </a>
+      <a class="text-gray-500 dark:text-gray-400" href="#">
+        Readers
+      </a>
+      <a class="text-gray-500 dark:text-gray-400" href="#">
+        Translators
+      </a>
+      <a class="text-gray-500 dark:text-gray-400" href="#">
+        Reports
+      </a>
+    </nav>
+    <div class="flex items-center w-full gap-4 md:ml-auto md:gap-2 lg:gap-4">
+      <form class="flex-1 ml-auto sm:flex-initial">
+        <div class="relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+            placeholder="Search stories..."
+            type="search"
+          />
+        </div>
+      </form>
+      <button mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
+        <img
+          ngSrc="assets/Images/Profile/default_avatar.svg"
+          width="32"
+          height="32"
+          class="rounded-full"
+          alt="Avatar"
+          style="aspect-ratio: 32 / 32; object-fit: cover;"
+        />
+        <span class="sr-only">Toggle user menu</span>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
+    </div>
+  </header>
