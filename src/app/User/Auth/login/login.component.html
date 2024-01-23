@@ -1,0 +1,39 @@
+<mat-card class="md:min-w-[30rem]">
+  <mat-card-header>
+    <mat-card-title>
+      <h1 class="text-3xl font-bold">Login</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput [formControl]="emailFormControl"
+               placeholder="Ex. pat@example.com">
+        <mat-hint></mat-hint>
+
+        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+          <mat-error>Please enter a valid email address</mat-error>
+        }
+        @if (emailFormControl.hasError('required')) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput [formControl]="passwordFormControl"
+               placeholder="">
+        <mat-hint></mat-hint>
+
+        @if (passwordFormControl.hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+
+      <mat-checkbox class="mb-4" [formControl]="rememberMeFormControl">Remember Me</mat-checkbox>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>
