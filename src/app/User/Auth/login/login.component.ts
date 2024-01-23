@@ -44,6 +44,7 @@ export class LoginComponent {
   ]);
   passwordFormControl = new FormControl('', [
     Validators.required,
+    Validators.minLength(8),
   ]);
 
   rememberMeFormControl = new FormControl('', [
@@ -72,18 +73,6 @@ export class LoginComponent {
           throw error; // Rethrow the error for the calling code to handle
         }
       });
-  }
-
-  test() {
-    this.http.get('api/novels/test-novel', {withCredentials: true}).subscribe({
-      next: data => {
-        console.log(data);
-      },
-      error: error => {
-        console.error('Test failed:', error);
-        throw error;
-      }
-    })
   }
 
 }

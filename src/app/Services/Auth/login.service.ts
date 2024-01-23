@@ -4,12 +4,12 @@ import {ILogin} from "../../Interfaces/Auth/ilogin";
 import {catchError, tap} from "rxjs";
 import {AuthService} from "./auth.service";
 import {ILoginResponseData} from "../../Interfaces/Auth/ilogin-response-data";
-
+import {Router} from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router ) { }
 
   login(loginData: ILogin) {
     return this.http.post('api/login', loginData, {withCredentials: true})
@@ -19,6 +19,7 @@ export class LoginService {
           this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
             console.log('isAuthenticated', isAuthenticated);
           })
+          this.router.navigate(['/']);
         }),
         catchError((error: any) => {
           // Handle errors here (e.g., log, display error messages)
