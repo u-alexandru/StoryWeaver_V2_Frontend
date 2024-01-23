@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ILogin} from "../../Interfaces/Auth/ilogin";
-import {catchError} from "rxjs";
+import {catchError, tap} from "rxjs";
+import {AuthService} from "./auth.service";
+import {ILoginResponseData} from "../../Interfaces/Auth/ilogin-response-data";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   login(loginData: ILogin) {
     return this.http.post('api/login', loginData, {withCredentials: true})
       .pipe(
+        tap((res) => {
+          this.authService.setUserState(res as ILoginResponseData)
+          this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+            console.log('isAuthenticated', isAuthenticated);
+          })
+        }),
         catchError((error: any) => {
           // Handle errors here (e.g., log, display error messages)
-          console.error('Login failed:', error);
+          this.authService.clearAuthState();
           throw error; // Rethrow the error for the calling code to handle
         })
       );

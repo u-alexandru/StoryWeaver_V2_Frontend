@@ -17,6 +17,7 @@ import {ErrorStateMatcher} from "@angular/material/core";
 import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
 import {ILogin} from "../../../Interfaces/Auth/ilogin";
 import {LoginService} from "../../../Services/Auth/login.service";
+import {HttpClient} from "@angular/common/http";
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -35,7 +36,7 @@ import {LoginService} from "../../../Services/Auth/login.service";
 })
 
 export class LoginComponent {
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private http: HttpClient) { }
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -71,6 +72,18 @@ export class LoginComponent {
           throw error; // Rethrow the error for the calling code to handle
         }
       });
+  }
+
+  test() {
+    this.http.get('api/novels/test-novel', {withCredentials: true}).subscribe({
+      next: data => {
+        console.log(data);
+      },
+      error: error => {
+        console.error('Test failed:', error);
+        throw error;
+      }
+    })
   }
 
 }
