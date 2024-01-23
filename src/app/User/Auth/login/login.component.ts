@@ -18,6 +18,7 @@ import {MatCheckbox, MatCheckboxModule} from "@angular/material/checkbox";
 import {ILogin} from "../../../Interfaces/Auth/ilogin";
 import {LoginService} from "../../../Services/Auth/login.service";
 import {HttpClient} from "@angular/common/http";
+import {NgIf} from "@angular/common";
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -29,13 +30,16 @@ import {HttpClient} from "@angular/common/http";
     MatButton,
     ReactiveFormsModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
 export class LoginComponent {
+  formGeneralErrorMessage: any = null;
+  formUnexpecterError: boolean = false;
   constructor(private loginService: LoginService, private http: HttpClient) { }
 
   emailFormControl = new FormControl('', [
@@ -68,11 +72,21 @@ export class LoginComponent {
           // Handle response here
         },
         error: error => {
-          // Handle errors here (e.g., log, display error messages)
-          console.error('Login failed:', error);
+          if(error.status === 401) {
+            this.formGeneralErrorMessage = error.error.message;
+            this.formUnexpecterError = false;
+          } else {
+            this.formUnexpecterError = true;
+            this.formGeneralErrorMessage = null;
+          }
           throw error; // Rethrow the error for the calling code to handle
         }
       });
+  }
+
+  clearAlert() {
+    this.formGeneralErrorMessage = null;
+    this.formUnexpecterError = false;
   }
 
 }
