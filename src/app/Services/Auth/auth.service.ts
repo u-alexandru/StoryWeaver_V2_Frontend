@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {ILoginResponseData} from "../../Interfaces/Auth/ilogin-response-data";
+import {LocalStorageService} from "../General/local-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,13 @@ export class AuthService {
   userRoles$: Observable<string[]> = this.userRolesSubject.asObservable();
   userPermissions$: Observable<string[]> = this.userPermissionsSubject.asObservable();
 
-  constructor() {
-    this.isAuthenticatedSubject.next(localStorage.getItem(this.isAuthenticatedKey) === 'true');
+  constructor(private localStorageService: LocalStorageService) {
+    this.isAuthenticatedSubject.next(this.localStorageService.getItem(this.isAuthenticatedKey) === 'true');
   }
 
   setAuthState(isAuthenticated: boolean) {
     this.isAuthenticatedSubject.next(isAuthenticated);
-    localStorage.setItem(this.isAuthenticatedKey, isAuthenticated ? 'true' : 'false');
+    this.localStorageService.setItem(this.isAuthenticatedKey, isAuthenticated ? 'true' : 'false');
   }
   setUserRoles(userRoles: string[]) {
     this.userRolesSubject.next(userRoles);
@@ -36,7 +37,7 @@ export class AuthService {
 
   clearAuthState() {
     this.isAuthenticatedSubject.next(false);
-    localStorage.removeItem(this.isAuthenticatedKey);
+    this.localStorageService.removeItem(this.isAuthenticatedKey);
     this.userRolesSubject.next([]);
     this.userPermissionsSubject.next([]);
   }
