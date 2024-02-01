@@ -31,7 +31,7 @@ import {NgIf} from "@angular/common";
     ReactiveFormsModule,
     MatCheckboxModule,
     FormsModule,
-    NgIf
+    NgIf,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

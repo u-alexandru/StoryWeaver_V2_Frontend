@@ -8,6 +8,7 @@ import {NavSidebarService} from "../../../Services/Layout/nav-sidebar.service";
 import {MatIconModule} from "@angular/material/icon";
 import {AuthService} from "../../../Services/Auth/auth.service";
 import {LoginService} from "../../../Services/Auth/login.service";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +21,8 @@ import {LoginService} from "../../../Services/Auth/login.service";
     MatToolbar,
     MatIconModule,
     CommonModule,
-    NgIf
+    NgIf,
+    MatProgressBarModule,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

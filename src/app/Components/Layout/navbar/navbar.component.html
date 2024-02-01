@@ -1,3 +1,4 @@
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 <mat-toolbar class="bg-white drop-shadow-md flex justify-between min-h-[64px]">
   <div class="w-1/2 flex justify-start items-center">
     <button class="relative group block md:hidden" (click)="toggleSidebar()">
@@ -21,12 +22,11 @@
       />
       <span class="sr-only">Toggle user menu</span>
     </button>
-    <button routerLink="/write" mat-button class="mr-7 font-light w-[10rem]">
-      <div class="flex justify-between">
-        <img ngSrc="assets/Icons/author.svg" alt="Author Icon" fill class="w-7"/>
-        <span>Write</span>
-      </div>
-
+    <button routerLink="/write" mat-button class="mr-7">
+      <mat-icon class="w-15">
+        <img ngSrc="assets/Icons/author.svg" alt="Author Icon" fill/>
+      </mat-icon>
+      <p class="text-base mt-3">Write</p>
     </button>
     <button *ngIf="!(isAuthenticated$ | async)" routerLink="/register" mat-raised-button color="primary" class="mr-3">
       Sign up
