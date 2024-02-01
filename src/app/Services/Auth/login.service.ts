@@ -28,4 +28,20 @@ export class LoginService {
         })
       );
   }
+
+  // logout
+  logout() {
+    return this.http.post('api/logout', {}, {withCredentials: true})
+      .pipe(
+        tap((res) => {
+          this.authService.clearAuthState();
+          this.router.navigate(['/']);
+        }),
+        catchError((error: any) => {
+          // Handle errors here (e.g., log, display error messages)
+          this.authService.clearAuthState();
+          throw error; // Rethrow the error for the calling code to handle
+        })
+      );
+  }
 }

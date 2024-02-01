@@ -10,7 +10,7 @@
   </div>
 
   <div class="w-1/2 flex justify-end">
-    <button mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
+    <button *ngIf="isAuthenticated$ | async" mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
       <img
         ngSrc="assets/Images/Profile/default_avatar.svg"
         width="32"
@@ -21,9 +21,23 @@
       />
       <span class="sr-only">Toggle user menu</span>
     </button>
+    <button routerLink="/write" mat-button class="mr-7 font-light w-[10rem]">
+      <div class="flex justify-between">
+        <img ngSrc="assets/Icons/author.svg" alt="Author Icon" fill class="w-7"/>
+        <span>Write</span>
+      </div>
+
+    </button>
+    <button *ngIf="!(isAuthenticated$ | async)" routerLink="/register" mat-raised-button color="primary" class="mr-3">
+      Sign up
+    </button>
+    <button *ngIf="!(isAuthenticated$ | async)" routerLink="/login" mat-button class="">
+      Sign in
+    </button>
     <mat-menu #userMenu="matMenu">
       <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
+
   </div>
 </mat-toolbar>

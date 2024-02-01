@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {CommonModule, NgIf, NgOptimizedImage} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import { MatMenuModule} from "@angular/material/menu";
 import {RouterLink} from "@angular/router";
 import {MatToolbar} from "@angular/material/toolbar";
 import {NavSidebarService} from "../../../Services/Layout/nav-sidebar.service";
 import {MatIconModule} from "@angular/material/icon";
+import {AuthService} from "../../../Services/Auth/auth.service";
+import {LoginService} from "../../../Services/Auth/login.service";
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +19,7 @@ import {MatIconModule} from "@angular/material/icon";
     RouterLink,
     MatToolbar,
     MatIconModule,
+    CommonModule,
     NgIf
   ],
   templateUrl: './navbar.component.html',
@@ -24,10 +27,17 @@ import {MatIconModule} from "@angular/material/icon";
 })
 export class NavbarComponent {
   sidebarOpened: boolean = false;
-  constructor(private navSidebarService: NavSidebarService) { }
+  // auth state observable
+  isAuthenticated$ = this.authService.isAuthenticated$;
+  constructor(private navSidebarService: NavSidebarService, private authService: AuthService, private loginService: LoginService) { }
+
 
   toggleSidebar() {
     this.navSidebarService.toggleSidebar();
+  }
+
+  logout() {
+    this.loginService.logout().subscribe();
   }
 
   ngAfterViewInit() {
