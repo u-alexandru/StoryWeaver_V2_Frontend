@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, first, Observable, switchMap, tap} from "rxjs";
 import {ILoginResponseData} from "../../Interfaces/Auth/ilogin-response-data";
 import {LocalStorageService} from "../General/local-storage.service";
+import {HttpClient} from "@angular/common/http";
+import {CsrfService} from "./csrf.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +21,36 @@ export class AuthService {
   userRoles$: Observable<string[]> = this.userRolesSubject.asObservable();
   userPermissions$: Observable<string[]> = this.userPermissionsSubject.asObservable();
 
-  constructor(private localStorageService: LocalStorageService) {
-    this.isAuthenticatedSubject.next(this.localStorageService.getItem(this.isAuthenticatedKey) === 'true');
+  constructor(private http: HttpClient, private csrfService: CsrfService) {
+
+  }
+
+  checkAuthentication() {
+      return this.csrfService.getCsrfCookie().pipe(
+      switchMap(() => {
+        const csrfToken = this.csrfService.getCsrfCookieFromCookies();
+        if (csrfToken !== null) {
+          return this.http.get<{authenticated: boolean}>('api/user-authenticated', {
+            headers: {
+              'X-XSRF-TOKEN': csrfToken
+            },
+            withCredentials: true
+          }).pipe(
+            tap(response => {
+              this.setAuthState(response.authenticated);
+            }),
+            first()
+          );
+        } else {
+          throw new Error('CSRF token is null');
+        }
+      })
+    );
   }
 
   setAuthState(isAuthenticated: boolean) {
     this.isAuthenticatedSubject.next(isAuthenticated);
-    this.localStorageService.setItem(this.isAuthenticatedKey, isAuthenticated ? 'true' : 'false');
+    this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   }
   setUserRoles(userRoles: string[]) {
     this.userRolesSubject.next(userRoles);
@@ -37,7 +62,6 @@ export class AuthService {
 
   clearAuthState() {
     this.isAuthenticatedSubject.next(false);
-    this.localStorageService.removeItem(this.isAuthenticatedKey);
     this.userRolesSubject.next([]);
     this.userPermissionsSubject.next([]);
   }

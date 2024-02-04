@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {SidebarComponent} from "./Components/Layout/sidebar/sidebar.component";
 import {NavbarComponent} from "./Components/Layout/navbar/navbar.component";
+import {AuthService} from "./Services/Auth/auth.service";
+import {lastValueFrom} from "rxjs";
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,4 +14,7 @@ import {NavbarComponent} from "./Components/Layout/navbar/navbar.component";
 })
 export class AppComponent {
   title = 'StoryWeaver_V2_Frontend';
+
+  constructor() {}
+
 }

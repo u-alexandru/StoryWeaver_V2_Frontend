@@ -6,10 +6,10 @@
   </mat-card-header>
   <mat-card-content>
     <form (ngSubmit)="onSubmit()">
-      @if (formUnexpecterError || formGeneralErrorMessage) {
+      @if (formUnexpectedError || formGeneralErrorMessage) {
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
-          <strong *ngIf="formUnexpecterError" class="font-bold">Holy smokes!</strong>
-          <span class="block sm:inline">{{ formUnexpecterError ? 'Something seriously bad happened.' : formGeneralErrorMessage }}</span>
+          <strong *ngIf="formUnexpectedError" class="font-bold">Holy smokes!</strong>
+          <span class="block sm:inline">{{ formUnexpectedError ? 'Something seriously bad happened.' : formGeneralErrorMessage }}</span>
           <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
           <mat-icon (click)="clearAlert()" class="hover:cursor-pointer" aria-hidden="false" aria-label="Close Alert" fontIcon="close"></mat-icon>
           </span>

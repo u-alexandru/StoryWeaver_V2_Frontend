@@ -9,6 +9,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {AuthService} from "../../../Services/Auth/auth.service";
 import {LoginService} from "../../../Services/Auth/login.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {NavbarService} from "../../../Services/Layout/Navbar/navbar.service";
 
 @Component({
   selector: 'app-navbar',
@@ -31,7 +32,8 @@ export class NavbarComponent {
   sidebarOpened: boolean = false;
   // auth state observable
   isAuthenticated$ = this.authService.isAuthenticated$;
-  constructor(private navSidebarService: NavSidebarService, private authService: AuthService, private loginService: LoginService) { }
+  isLoading$: boolean = false;
+  constructor(private navSidebarService: NavSidebarService, private authService: AuthService, private loginService: LoginService, private navbarService: NavbarService) { }
 
 
   toggleSidebar() {
@@ -45,6 +47,10 @@ export class NavbarComponent {
   ngAfterViewInit() {
     this.navSidebarService.sidebarOpen$.subscribe(open => {
       this.sidebarOpened = open;
+    });
+
+    this.navbarService.isLoading$.subscribe((isLoading) => {
+      this.isLoading$ = isLoading;
     });
   }
 }

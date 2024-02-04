@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import {APP_INITIALIZER, ApplicationConfig} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,14 +6,20 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material/core";
 import {
-  HTTP_INTERCEPTORS,
+  HTTP_INTERCEPTORS, HttpClient,
   provideHttpClient,
   withFetch,
   withInterceptors,
   withInterceptorsFromDi
 } from "@angular/common/http";
 import {csrfInterceptor} from "./Interceptors/Auth/csrf.interceptor";
-import {setRequestBaseUrlInterceptor} from "./Interceptors/General/set-request-base-url.interceptor";
+import {AuthService} from "./Services/Auth/auth.service";
+import {Observable} from "rxjs";
+import {CsrfService} from "./Services/Auth/csrf.service";
+
+function initializeUserState(authService: AuthService): () => Observable<any> {
+  return () => authService.checkAuthentication();
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,8 +28,14 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher},
     provideHttpClient(
-      withInterceptors([csrfInterceptor, setRequestBaseUrlInterceptor]),
+      withInterceptors([csrfInterceptor]),
       withFetch()
-    )
+    ),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeUserState,
+      multi: true,
+      deps: [AuthService, CsrfService]
+    }
   ]
 };

@@ -67,6 +67,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "src/proxy.conf.mjs"
+          },
           "configurations": {
             "production": {
               "buildTarget": "StoryWeaver_V2_Frontend:build:production"

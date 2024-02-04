@@ -1,4 +1,4 @@
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading$" class="absolute top-0 w-screen z-50"></mat-progress-bar>
 <mat-toolbar class="bg-white drop-shadow-md flex justify-between min-h-[64px]">
   <div class="w-1/2 flex justify-start items-center">
     <button class="relative group block md:hidden" (click)="toggleSidebar()">
@@ -11,7 +11,14 @@
   </div>
 
   <div class="w-1/2 flex justify-end">
-    <button *ngIf="isAuthenticated$ | async" mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 rounded-full">
+    <button routerLink="/write" mat-button class="mr-7">
+      <mat-icon class="w-15">
+        <img ngSrc="assets/Icons/author.svg" alt="Author Icon" fill/>
+      </mat-icon>
+      <p class="text-base mt-3">Write</p>
+    </button>
+
+    <button *ngIf="isAuthenticated$ | async" mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground rounded-full">
       <img
         ngSrc="assets/Images/Profile/default_avatar.svg"
         width="32"
@@ -21,12 +28,6 @@
         style="aspect-ratio: 32 / 32; object-fit: cover;"
       />
       <span class="sr-only">Toggle user menu</span>
-    </button>
-    <button routerLink="/write" mat-button class="mr-7">
-      <mat-icon class="w-15">
-        <img ngSrc="assets/Icons/author.svg" alt="Author Icon" fill/>
-      </mat-icon>
-      <p class="text-base mt-3">Write</p>
     </button>
     <button *ngIf="!(isAuthenticated$ | async)" routerLink="/register" mat-raised-button color="primary" class="mr-3">
       Sign up

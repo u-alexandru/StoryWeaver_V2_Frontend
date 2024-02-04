@@ -39,7 +39,8 @@ import {NgIf} from "@angular/common";
 
 export class LoginComponent {
   formGeneralErrorMessage: any = null;
-  formUnexpecterError: boolean = false;
+  formUnexpectedError: boolean = false;
+  isFormSubmitting: boolean = false;
   constructor(private loginService: LoginService, private http: HttpClient) { }
 
   emailFormControl = new FormControl('', [
@@ -56,7 +57,7 @@ export class LoginComponent {
 
   onSubmit() {
     // check if form is valid
-    if (!this.emailFormControl.valid || !this.passwordFormControl.valid || !this.rememberMeFormControl.valid) {
+    if (!this.emailFormControl.valid || !this.passwordFormControl.valid || !this.rememberMeFormControl.valid || this.isFormSubmitting) {
       return;
     }
 
@@ -66,19 +67,21 @@ export class LoginComponent {
       remember_me: Boolean(this.rememberMeFormControl.value!)
     }
 
+    this.isFormSubmitting = true;
     this.loginService.login(loginData)
       .subscribe({
         next: data => {
-          // Handle response here
+          this.isFormSubmitting = false;
         },
         error: error => {
           if(error.status === 401) {
             this.formGeneralErrorMessage = error.error.message;
-            this.formUnexpecterError = false;
+            this.formUnexpectedError = false;
           } else {
-            this.formUnexpecterError = true;
+            this.formUnexpectedError = true;
             this.formGeneralErrorMessage = null;
           }
+          this.isFormSubmitting = false;
           throw error; // Rethrow the error for the calling code to handle
         }
       });
@@ -86,7 +89,7 @@ export class LoginComponent {
 
   clearAlert() {
     this.formGeneralErrorMessage = null;
-    this.formUnexpecterError = false;
+    this.formUnexpectedError = false;
   }
 
 }
