@@ -16,16 +16,18 @@ import { Subscription} from "rxjs";
 export class AppComponent {
   title = 'StoryWeaver_V2_Frontend';
   private authCheckSubscription: Subscription | undefined;
-  authChecked = false;
+  private authCheckStateSubscription: Subscription | undefined;
+  checkingAuth = false;
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authCheckSubscription = this.authService.checkAuthentication().subscribe({
-      next: () => {
-        this.authChecked = true;
-      },
-      error: () => {
-        this.authChecked = true;
+
+    this.authCheckSubscription = this.authService.checkAuthentication().subscribe();
+
+    this.authCheckStateSubscription = this.authService.checkingAuth$.subscribe({
+      next: (checkingAuth) => {
+        console.log('checkingAuth', checkingAuth)
+        this.checkingAuth = checkingAuth;
       }
     });
   }
@@ -33,6 +35,9 @@ export class AppComponent {
   ngOnDestroy() {
     if (this.authCheckSubscription) {
       this.authCheckSubscription.unsubscribe();
+    }
+    if (this.authCheckStateSubscription) {
+      this.authCheckStateSubscription.unsubscribe();
     }
   }
 

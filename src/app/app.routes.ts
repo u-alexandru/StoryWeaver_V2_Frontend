@@ -14,13 +14,11 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    resolve: {isAuthenticated: () => inject(AuthService).isAuthenticated$.pipe(first())},
     canActivate: [notAuthGuard]
   },
   {
     path: 'register',
     component: RegisterComponent,
-    resolve: {isAuthenticated: () => inject(AuthService).isAuthenticated$.pipe(first())},
     canActivate: [notAuthGuard]
   }
 ];

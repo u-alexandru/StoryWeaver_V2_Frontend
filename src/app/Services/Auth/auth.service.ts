@@ -11,6 +11,7 @@ import {CsrfService} from "./csrf.service";
 
 export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  private checkingAuth = new BehaviorSubject<boolean>(true);
   private userRolesSubject = new BehaviorSubject<string[]>([]);
   private userPermissionsSubject = new BehaviorSubject<string[]>([]);
 
@@ -18,6 +19,7 @@ export class AuthService {
 
   // Expose observables to components
   isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
+  checkingAuth$: Observable<boolean> = this.checkingAuth.asObservable();
   userRoles$: Observable<string[]> = this.userRolesSubject.asObservable();
   userPermissions$: Observable<string[]> = this.userPermissionsSubject.asObservable();
 
@@ -38,8 +40,8 @@ export class AuthService {
           }).pipe(
             tap(response => {
               this.setAuthState(response.authenticated);
+              this.checkingAuth.next(false);
             }),
-            first()
           );
         } else {
           throw new Error('CSRF token is null');

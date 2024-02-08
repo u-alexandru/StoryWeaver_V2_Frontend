@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="authChecked; then mainContent; else loading">
+  *ngIf="!checkingAuth; then mainContent; else loading">
 </ng-container>
 
 <ng-template #mainContent>
@@ -15,5 +15,5 @@
 </ng-template>
 
 <ng-template #loading>
-  <mat-progress-bar *ngIf="!authChecked" mode="indeterminate" class="fixed top-0 w-screen z-50"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" class="fixed top-0 w-screen z-50"></mat-progress-bar>
 </ng-template>
