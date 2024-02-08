@@ -19,6 +19,9 @@ import {ILogin} from "../../../Interfaces/Auth/ilogin";
 import {LoginService} from "../../../Services/Auth/login.service";
 import {HttpClient} from "@angular/common/http";
 import {NgIf} from "@angular/common";
+import {AuthService} from "../../../Services/Auth/auth.service";
+import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -41,7 +44,8 @@ export class LoginComponent {
   formGeneralErrorMessage: any = null;
   formUnexpectedError: boolean = false;
   isFormSubmitting: boolean = false;
-  constructor(private loginService: LoginService, private http: HttpClient) { }
+  private authSubscription: Subscription | undefined;
+  constructor(private loginService: LoginService, private http: HttpClient, private authService: AuthService, private router: Router) { }
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -91,5 +95,17 @@ export class LoginComponent {
     this.formGeneralErrorMessage = null;
     this.formUnexpectedError = false;
   }
+  ngOnInit() {
+    this.authSubscription = this.authService.isAuthenticated$.subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+       this.router.navigate(['/']);
+      }
+    });
+  }
 
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
 }

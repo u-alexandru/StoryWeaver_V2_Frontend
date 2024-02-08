@@ -4,8 +4,13 @@ export default [
       '/api',
       '/sanctum/csrf-cookie',
     ],
-    target: 'http://backend:8000',
+    target: {
+      host: "backend",
+      protocol: "http:",
+      port: 8000,
+    },
     secure: false,
     changeOrigin: true,
+    logLevel: "debug"
   }
 ];

@@ -13,13 +13,6 @@ import {
   withInterceptorsFromDi
 } from "@angular/common/http";
 import {csrfInterceptor} from "./Interceptors/Auth/csrf.interceptor";
-import {AuthService} from "./Services/Auth/auth.service";
-import {Observable} from "rxjs";
-import {CsrfService} from "./Services/Auth/csrf.service";
-
-function initializeUserState(authService: AuthService): () => Observable<any> {
-  return () => authService.checkAuthentication();
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,12 +23,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([csrfInterceptor]),
       withFetch()
-    ),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeUserState,
-      multi: true,
-      deps: [AuthService, CsrfService]
-    }
+    )
   ]
 };

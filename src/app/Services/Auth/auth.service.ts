@@ -26,7 +26,26 @@ export class AuthService {
   }
 
   checkAuthentication() {
-      return this.csrfService.getCsrfCookie()
+      return this.csrfService.getCsrfCookie().pipe(
+      switchMap(() => {
+        const csrfToken = this.csrfService.getCsrfCookieFromCookies();
+        if (csrfToken !== null) {
+          return this.http.get<{authenticated: boolean}>('api/user-authenticated', {
+            headers: {
+              'X-XSRF-TOKEN': csrfToken
+            },
+            withCredentials: true
+          }).pipe(
+            tap(response => {
+              this.setAuthState(response.authenticated);
+            }),
+            first()
+          );
+        } else {
+          throw new Error('CSRF token is null');
+        }
+      })
+    );
   }
 
   setAuthState(isAuthenticated: boolean) {

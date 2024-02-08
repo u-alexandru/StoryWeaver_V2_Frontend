@@ -5,7 +5,7 @@ import {mergeMap} from "rxjs";
 export const csrfInterceptor: HttpInterceptorFn = (req, next) => {
   const csrfService = inject(CsrfService)
 
-      if (req.url.includes('sanctum/csrf-cookie') || req.url.includes('user-authenticated')) {
+      if (req.url.includes('sanctum/csrf-cookie')) {
         return next(req);
       }
 
