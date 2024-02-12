@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, first, Observable, switchMap, tap} from "rxjs";
+import {BehaviorSubject, catchError, first, Observable, of, switchMap, tap} from "rxjs";
 import {ILoginResponseData} from "../../Interfaces/Auth/ilogin-response-data";
 import {LocalStorageService} from "../General/local-storage.service";
 import {HttpClient} from "@angular/common/http";
@@ -28,9 +28,17 @@ export class AuthService {
   }
 
   checkAuthentication() {
-      return this.csrfService.getCsrfCookie().pipe(
+    return this.csrfService.getCsrfCookie().pipe(
+      tap(response => {
+        console.log('getCsrfCookie response', response);
+      }),
+      catchError(error => {
+        console.error('getCsrfCookie error', error);
+        return of(error);
+      }),
       switchMap(() => {
         const csrfToken = this.csrfService.getCsrfCookieFromCookies();
+        console.log('csrfToken', csrfToken);
         if (csrfToken !== null) {
           return this.http.get<{authenticated: boolean}>('api/user-authenticated', {
             headers: {
@@ -44,7 +52,9 @@ export class AuthService {
             }),
           );
         } else {
-          throw new Error('CSRF token is null');
+          this.setAuthState(false);
+          this.checkingAuth.next(false);
+          return new Observable();
         }
       })
     );
