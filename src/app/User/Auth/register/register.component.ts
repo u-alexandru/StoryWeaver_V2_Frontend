@@ -114,6 +114,26 @@ export class RegisterComponent {
           if(error.status === 401) {
             this.formGeneralErrorMessage = error.error.message;
             this.formUnexpectedError = false;
+            // go first step
+            this.stepper.selectedIndex = 0;
+          } else if(error.status === 422) {
+            console.log(error);
+            this.formGeneralErrorMessage = error.error.message;
+            this.formUnexpectedError = false;
+            const errors = error.error.errors;
+            for (const field in errors) {
+              if (errors.hasOwnProperty(field)) {
+                const formControl = this.registerFormArray.at(1).get(field);
+                if (formControl) {
+                  formControl.setErrors({serverError: errors[field]});
+                }
+              }
+              if (field === 'email') {
+                this.stepper.selectedIndex = 0;
+              } else {
+                this.stepper.selectedIndex = 1;
+              }
+            }
           } else {
             this.formUnexpectedError = true;
             this.formGeneralErrorMessage = null;
