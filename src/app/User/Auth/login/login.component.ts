@@ -21,7 +21,8 @@ import {HttpClient} from "@angular/common/http";
 import {NgIf} from "@angular/common";
 import {AuthService} from "../../../Services/Auth/auth.service";
 import {Subscription} from "rxjs";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {MatDividerModule} from "@angular/material/divider";
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -30,11 +31,13 @@ import {Router} from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatDividerModule,
     MatButton,
     ReactiveFormsModule,
     MatCheckboxModule,
     FormsModule,
     NgIf,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -89,6 +92,10 @@ export class LoginComponent {
           throw error; // Rethrow the error for the calling code to handle
         }
       });
+  }
+
+  goRegister() {
+    this.router.navigate(['/register']);
   }
 
   clearAlert() {

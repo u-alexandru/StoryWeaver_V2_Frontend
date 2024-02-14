@@ -1,1 +1,82 @@
-<p>register works!</p>
+<mat-card class="w-screen md:w-[35rem] shadow-none md:drop-shadow">
+  <mat-card-header>
+    <mat-card-title>
+      <h1 class="text-3xl font-bold">Sign Up</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      @if (formUnexpectedError || formGeneralErrorMessage) {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
+          <strong *ngIf="formUnexpectedError" class="font-bold">Holy smokes!</strong>
+          <span class="block sm:inline">{{ formUnexpectedError ? 'Something seriously bad happened.' : formGeneralErrorMessage }}</span>
+          <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <mat-icon (click)="clearAlert()" class="hover:cursor-pointer" aria-hidden="false" aria-label="Close Alert" fontIcon="close"></mat-icon>
+          </span>
+        </div>
+      }
+      <form [formGroup]="registerForm" class="mt-5" (ngSubmit)="onSubmit()">
+      <mat-stepper linear formArrayName="registerFormArray" #stepper>
+        <mat-step formGroupName="0" [stepControl]="registerFormArray.controls[0]">
+
+            <ng-template matStepLabel>Email :D</ng-template>
+            <mat-form-field class="w-full mt-5">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput formControlName="email"
+                     placeholder="Ex. pat@example.com" autocomplete="email">
+            </mat-form-field>
+            <div>
+                <button mat-raised-button class="w-full" color="primary" matStepperNext type="button">Next</button>
+            </div>
+        </mat-step>
+        <mat-step formGroupName="1" label="Finish Things Up" [stepControl]="registerFormArray.controls[1]">
+            <mat-form-field hintLabel="Max 15 characters" class="w-full mt-5">
+              <mat-label>Username</mat-label>
+              <input matInput #input maxlength="10" placeholder="Ex. Nougat" formControlName="username">
+              <mat-hint align="end">{{input.value.length}}/15</mat-hint>
+            </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker1" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birthdate">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>Password</mat-label>
+              <input type="password" matInput formControlName="password" placeholder="">
+            </mat-form-field>
+          <mat-form-field class="w-full">
+            <mat-label>Repeat Password</mat-label>
+            <input type="password" matInput formControlName="password_confirmation" placeholder="">
+          </mat-form-field>
+            <div>
+                <button mat-raised-button class="w-full" [disabled]="this.isFormSubmitting" color="primary">Sign Up</button>
+            </div>
+        </mat-step>
+        <mat-step formGroupName="2" [stepControl]="registerFormArray.controls[2]">
+          <ng-template matStepLabel>Done</ng-template>
+        <div class="text-center">
+          <p class="font-semibold text-xl">Congratulations!</p>
+          <p>You are now a member of <span class="font-semibold">StoryWeaver</span></p>
+          <p>But there is still one last step remaining...</p>
+          <p><span class="font-semibold">Check your email</span> for a confirmation link</p>
+        </div>
+        </mat-step>
+      </mat-stepper>
+    </form>
+    <div class="divider flex items-center">
+      <div class="left-divider w-full">
+        <mat-divider></mat-divider>
+      </div>
+      <div class="center-divider p-5">
+        <p class="text-sm text-gray-500 m-0">Or</p>
+      </div>
+      <div class="right-divider w-full">
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <button mat-flat-button class="w-full" color="accent" type="submit" (click)="goLogin()">Sign In</button>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -33,10 +33,28 @@
           <mat-error>Password is <strong>required</strong></mat-error>
         }
       </mat-form-field>
-      <mat-checkbox class="mb-2 mt-0" [formControl]="rememberMeFormControl">Remember Me</mat-checkbox>
+      <div class="flex items-center justify-between">
+        <mat-checkbox class="mb-2 mt-0" [formControl]="rememberMeFormControl">Remember Me</mat-checkbox>
+        <a class="text-sm text-blue-500 hover:underline" routerLink="/forgot-password">Forgot Password?</a>
+      </div>
+
     <mat-card-actions>
       <button mat-raised-button class="w-full" color="primary" type="submit">Login</button>
     </mat-card-actions>
     </form>
+    <div class="divider flex items-center">
+      <div class="left-divider w-full">
+        <mat-divider></mat-divider>
+      </div>
+      <div class="center-divider p-5">
+        <p class="text-sm text-gray-500 m-0">Or</p>
+        </div>
+      <div class="right-divider w-full">
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <button mat-flat-button class="w-full" color="accent" type="submit" (click)="goRegister()">Sign Up</button>
+    </div>
   </mat-card-content>
 </mat-card>
