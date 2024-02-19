@@ -24,7 +24,8 @@ import {IRegister} from "../../../Interfaces/Auth/iregister";
 import {RegisterService} from "../../../Services/Auth/register.service";
 import {MatStepper, MatStepperModule} from "@angular/material/stepper";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-
+import {strongPasswordValidator} from "../../../Validators/strongPasswordValidator";
+import {alphanumericValidator} from "../../../Validators/alphanumericValidator";
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -74,8 +75,8 @@ export class RegisterComponent {
         email: new FormControl('', [Validators.required, Validators.email]),
       }), // formGroup for step 0
       new FormGroup({
-        username: new FormControl('', Validators.required),
-        password: new FormControl('', Validators.required),
+        username: new FormControl('', [Validators.required, alphanumericValidator()]),
+        password: new FormControl('', [Validators.required, strongPasswordValidator()]),
         birthdate: new FormControl('', Validators.required),
         password_confirmation: new FormControl('', [Validators.required]),
       }), // formGroup for step 1
@@ -85,6 +86,14 @@ export class RegisterComponent {
     this.registerForm = this._formBuilder.group({
       registerFormArray: this.registerFormArray
     });
+  }
+
+  get password() {
+    return this.registerFormArray.at(1).get('password');
+  }
+
+  get username() {
+    return this.registerFormArray.at(1).get('username');
   }
 
   onSubmit() {
@@ -109,6 +118,8 @@ export class RegisterComponent {
         next: data => {
           this.isFormSubmitting = false;
           this.stepper.next();
+          this.formGeneralErrorMessage = null;
+          this.formUnexpectedError = false;
         },
         error: error => {
           if(error.status === 401) {
@@ -117,7 +128,6 @@ export class RegisterComponent {
             // go first step
             this.stepper.selectedIndex = 0;
           } else if(error.status === 422) {
-            console.log(error);
             this.formGeneralErrorMessage = error.error.message;
             this.formUnexpectedError = false;
             const errors = error.error.errors;

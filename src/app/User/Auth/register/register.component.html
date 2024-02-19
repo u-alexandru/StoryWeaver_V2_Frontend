@@ -31,8 +31,11 @@
         <mat-step formGroupName="1" label="Finish Things Up" [stepControl]="registerFormArray.controls[1]">
             <mat-form-field hintLabel="Max 15 characters" class="w-full mt-5">
               <mat-label>Username</mat-label>
-              <input matInput #input maxlength="10" placeholder="Ex. Nougat" formControlName="username">
+              <input matInput #input maxlength="15" placeholder="Ex. Nougat" formControlName="username">
               <mat-hint align="end">{{input.value.length}}/15</mat-hint>
+              @if (username?.invalid) {
+                <mat-error>{{this.username?.getError('alphanumeric')}}</mat-error>
+              }
             </mat-form-field>
           <mat-form-field class="w-full">
             <mat-label>Date of Birth</mat-label>
@@ -44,6 +47,9 @@
             <mat-form-field class="w-full">
               <mat-label>Password</mat-label>
               <input type="password" matInput formControlName="password" placeholder="">
+              @if (password?.invalid) {
+                <mat-error>{{this.password?.getError('passwordStrength')}}</mat-error>
+              }
             </mat-form-field>
           <mat-form-field class="w-full">
             <mat-label>Repeat Password</mat-label>
