@@ -41,6 +41,10 @@
     <mat-card-actions>
       <button mat-raised-button class="w-full" color="primary" type="submit">Login</button>
     </mat-card-actions>
+      <div class="flex items-left ml-2">
+        <p class="text-sm text-gray-500 m-0">Don't have an account?</p>
+        <a class="text-sm text-blue-500 hover:underline ml-2" routerLink="/register">Sign Up</a>
+      </div>
     </form>
     <div class="divider flex items-center">
       <div class="left-divider w-full">
@@ -53,8 +57,8 @@
         <mat-divider></mat-divider>
       </div>
     </div>
-    <div class="flex justify-center">
-      <button mat-flat-button class="w-full" color="accent" type="submit" (click)="goRegister()">Sign Up</button>
+    <div class="flex justify-center w-full">
+      <app-web-authn-auth class="w-full"></app-web-authn-auth>
     </div>
   </mat-card-content>
 </mat-card>

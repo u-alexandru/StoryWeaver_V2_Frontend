@@ -23,6 +23,7 @@ import {AuthService} from "../../../Services/Auth/auth.service";
 import {Subscription} from "rxjs";
 import {Router, RouterLink} from "@angular/router";
 import {MatDividerModule} from "@angular/material/divider";
+import {WebAuthnAuthComponent} from "../web-authn-auth/web-authn-auth.component";
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -38,6 +39,7 @@ import {MatDividerModule} from "@angular/material/divider";
     FormsModule,
     NgIf,
     RouterLink,
+    WebAuthnAuthComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
