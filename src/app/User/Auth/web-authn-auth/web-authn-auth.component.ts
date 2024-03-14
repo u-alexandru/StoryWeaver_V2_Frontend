@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {WebAuthnService} from "../../../Services/Auth/web-authn.service";
+import {MatDivider, MatDividerModule} from "@angular/material/divider";
 
 @Component({
   selector: 'app-web-authn-auth',
@@ -8,30 +10,27 @@ import {AsyncPipe, NgIf} from "@angular/common";
   imports: [
     MatButton,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    MatDividerModule
   ],
   templateUrl: './web-authn-auth.component.html',
   styleUrl: './web-authn-auth.component.css'
 })
 export class WebAuthnAuthComponent {
 
-  canUseWebAuthn: Promise<boolean> = this.checkPasskeyAvailable();
-  constructor() {
+  canUseWebAuthn: Promise<boolean>;
+  constructor(private webAuthn: WebAuthnService) {
+    this.canUseWebAuthn = webAuthn.checkPasskeyAvailable();
   }
 
   ngOnInit() {
   }
-  async checkPasskeyAvailable(): Promise<boolean> {
-    if (window.PublicKeyCredential &&
-      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
-      PublicKeyCredential.isConditionalMediationAvailable) {
-      // Check if user verifying platform authenticator is available.
-      const results = await Promise.all([
-        PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
-        PublicKeyCredential.isConditionalMediationAvailable(),
-      ]);
-      return results.every(r => r === true);
-    }
-    return Promise.resolve(false);
+
+  authenticate(email: string) {
+    this.webAuthn.startRegistration(email).then(() => {
+      console.log('Authentication started');
+    }).catch(error => {
+      console.error('Failed to start authentication', error);
+    });
   }
 }

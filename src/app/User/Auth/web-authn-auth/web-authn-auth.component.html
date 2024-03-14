@@ -1,1 +1,14 @@
-<button *ngIf="canUseWebAuthn | async" mat-flat-button class="w-full" color="accent" type="submit">Authenticate with PassKey</button>
+<div *ngIf="canUseWebAuthn | async" class="divider flex items-center">
+  <div class="left-divider w-full">
+    <mat-divider></mat-divider>
+  </div>
+  <div class="center-divider p-5">
+    <p class="text-sm text-gray-500 m-0">Or</p>
+  </div>
+  <div class="right-divider w-full">
+    <mat-divider></mat-divider>
+  </div>
+</div>
+<div *ngIf="canUseWebAuthn | async" class="flex justify-center w-full">
+  <button mat-flat-button class="w-full" color="accent" type="button" (click)="authenticate('admin@admin.com')">Authenticate with PassKey</button>
+</div>
