@@ -10,5 +10,5 @@
   </div>
 </div>
 <div *ngIf="canUseWebAuthn | async" class="flex justify-center w-full">
-  <button mat-flat-button class="w-full" color="accent" type="button" (click)="authenticate('admin@admin.com')">Authenticate with PassKey</button>
+  <button mat-flat-button class="w-full" color="accent" type="button" (click)="authenticate()">Sign in with a passkey</button>
 </div>

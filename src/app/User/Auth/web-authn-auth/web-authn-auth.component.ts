@@ -26,8 +26,8 @@ export class WebAuthnAuthComponent {
   ngOnInit() {
   }
 
-  authenticate(email: string) {
-    this.webAuthn.startRegistration(email).then(() => {
+  authenticate() {
+    this.webAuthn.startLogin().then(() => {
       console.log('Authentication started');
     }).catch(error => {
       console.error('Failed to start authentication', error);

@@ -42,12 +42,33 @@ export class WebAuthnService {
       throw new Error('Failed to create public key credential');
     }
   }
+
+  async startLogin(): Promise<void> {
+    const options = await this.getCredentialRequestOptions();
+    console.log('options', options);
+    if (!options) {
+      throw new Error('Failed to get credential request options from server');
+    }
+
+    const credential = await navigator.credentials.get({ publicKey: options });
+    console.log('credential', credential);
+    if (!credential) {
+      throw new Error('Failed to get public key credential');
+    }
+  }
+
   async getCredentialCreationOptions(email:string): Promise<PublicKeyCredentialCreationOptions> {
     const options = await firstValueFrom(this.http.post<PublicKeyCredentialCreationOptions>('/api/webauthn/register', {username: email}));
 
     // Convert challenge from hexadecimal string to ArrayBuffer
     options.challenge = this.hexStringToBuffer(options.challenge);
     options.user.id = this.hexStringToBuffer(options.user.id);
+    return options;
+  }
+
+  async getCredentialRequestOptions(): Promise<PublicKeyCredentialRequestOptions> {
+    const options = await firstValueFrom(this.http.get<PublicKeyCredentialRequestOptions>('/api/webauthn/login'));
+    options.challenge = this.hexStringToBuffer(options.challenge);
     return options;
   }
 
