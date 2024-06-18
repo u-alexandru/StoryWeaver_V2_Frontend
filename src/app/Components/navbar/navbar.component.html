@@ -1,16 +1,16 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading$" class="fixed top-0 w-screen z-50"></mat-progress-bar>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false">
     <mat-toolbar>
       @if ((isHandset$ | async)) {
-        <a routerLink="/" class="flex items-center">
-          <span>StoryWeaver</span>
-        </a>
+      <a routerLink="/" class="flex items-center">
+        <span>StoryWeaver</span>
+      </a>
       } @else {
-        <span>Menu</span>
+      <span>Menu</span>
       }
     </mat-toolbar>
     <mat-nav-list>
@@ -23,18 +23,18 @@
     <mat-toolbar class="flex justify-between">
       <div class="flex items-center">
         @if (isHandset$ | async) {
-          <button
-            type="button"
-            aria-label="Toggle sidenav"
-            mat-icon-button
-            (click)="drawer.toggle()">
-            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-          </button>
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
         }
         @if (!(isHandset$ | async)) {
-          <a routerLink="/" class="flex items-center">
-            <span>StoryWeaver</span>
-          </a>
+        <a routerLink="/" class="flex items-center">
+          <span>StoryWeaver</span>
+        </a>
         }
 
       </div>
@@ -46,24 +46,24 @@
           <p class="text-base mt-3">Write</p>
         </button>
         @if(isAuthenticated$ | async) {
-          <button mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground rounded-full">
-            <img
-              ngSrc="assets/Images/Profile/default_avatar.svg"
-              width="32"
-              height="32"
-              class="rounded-full"
-              alt="Avatar"
-              style="aspect-ratio: 32 / 32; object-fit: cover;"
-            />
-            <span class="sr-only">Toggle user menu</span>
-          </button>
+        <button mat-button [matMenuTriggerFor]="userMenu" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground rounded-full">
+          <img
+            ngSrc="assets/Images/Profile/default_avatar.svg"
+            width="32"
+            height="32"
+            class="rounded-full"
+            alt="Avatar"
+            style="aspect-ratio: 32 / 32; object-fit: cover;"
+          />
+          <span class="sr-only">Toggle user menu</span>
+        </button>
         } @else {
-          <button routerLink="/register" mat-raised-button color="primary" class="mr-3">
-            Sign up
-          </button>
-          <button routerLink="/login" mat-button class="">
-            Sign in
-          </button>
+        <button routerLink="/register" mat-raised-button color="primary" class="mr-3">
+          Sign up
+        </button>
+        <button routerLink="/login" mat-button class="">
+          Sign in
+        </button>
         }
 
         <mat-menu #userMenu="matMenu">
@@ -74,7 +74,7 @@
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
-    <section class="main flex justify-center items-center h-full">
+    <section class="main flex justify-center items-start h-full">
       <div>
         <router-outlet></router-outlet>
       </div>

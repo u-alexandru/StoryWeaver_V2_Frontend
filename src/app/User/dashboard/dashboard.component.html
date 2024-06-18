@@ -1,1 +1,59 @@
-<app-weekly-novel></app-weekly-novel>
+<div class="w-full p-4 space-y-4">
+    <!-- Featured Novel Section (Full width on all screens) -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+        <app-weekly-novel></app-weekly-novel>
+    </div>
+
+    <!-- Recently Read Novels and Most Liked Novels (Stacked on small screens, side by side on larger screens) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 bg-white shadow-md rounded-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Recently Read Novels</h2>
+            <ul>
+                <li class="mb-2">
+                    <h3 class="text-lg font-bold">Novel Title 1</h3>
+                    <p class="text-gray-600">Short description or last read chapter. asd</p>
+                </li>
+                <li class="mb-2">
+                    <h3 class="text-lg font-bold">Novel Title 2</h3>
+                    <p class="text-gray-600">Short description or last read chapter.</p>
+                </li>
+                <!-- Repeat for more novels -->
+            </ul>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <app-top-novels/>
+        </div>
+    </div>
+
+    <!-- Top Authors and New Arrivals (Stacked on small screens, side by side on larger screens) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">Top Authors</h2>
+            <ul>
+                <li class="mb-2">
+                    <h3 class="text-lg font-bold">Author Name 1</h3>
+                    <p class="text-gray-600">Short bio or description.</p>
+                </li>
+                <li class="mb-2">
+                    <h3 class="text-lg font-bold">Author Name 2</h3>
+                    <p class="text-gray-600">Short bio or description.</p>
+                </li>
+                <!-- Repeat for more authors -->
+            </ul>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h2 class="text-2xl font-semibold mb-4">New Arrivals</h2>
+            <ul>
+                <li class="mb-2">
+                    <h3 class="text-lg font-bold">New Arrival Novel 1</h3>
+                    <p class="text-gray-600">Short description of the new arrival novel.</p>
+                </li>
+                <li class="mb-2">
+                    <h3 class="text-lg font-bold">New Arrival Novel 2</h3>
+                    <p class="text-gray-600">Short description of the new arrival novel.</p>
+                </li>
+                <!-- Repeat for more new arrivals -->
+            </ul>
+        </div>
+    </div>
+</div>
